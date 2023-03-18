@@ -1,4 +1,21 @@
 const getSongs = (req, res, next) => {
+    if (Object.keys(req.query).length){
+       const {
+        songTitle,
+        artist,
+        genre
+       } = req.query 
+
+       const filter = [];
+       if(songTitle) filter.push(songTitle)
+       if(artist) filter.push(artist)
+       if(genre) filter.push(genre)
+
+       for(const query of filter){
+        console.log(`Searching song by: ${query}`)
+       }
+    }
+
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')

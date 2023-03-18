@@ -1,4 +1,21 @@
 const getArtists = (req, res, next) => {
+    if (Object.keys(req.query).length){
+        const {
+            firstName, 
+            lastName,
+            genre
+        } = req.query
+
+        const filter = [];
+        if (firstName) filter.push(firstName)
+        if (lastName) filter.push(lastName)
+        if (genre) filter.push(genre)
+
+        for (const query of filter){
+            console.log(`Searching artist by: ${query}`)
+        }
+    }
+
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')

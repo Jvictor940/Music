@@ -18,8 +18,32 @@ const deleteSongs = (req, res, next) => {
     .json({ message: "You've succesfully deleted a song"})
 }
 
+const getSong = (req, res, next) => {
+    res 
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Show me the song with songId of ${req.params.songId}`})
+}
+
+const updateSong = (req, res, next) => {
+    res 
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Updated the song with songId of ${req.params.songId}`})
+}
+
+const deleteSong = (req, res, next) => {
+    res
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Deleted song with songId of ${req.params.songId}`})
+}
+
 module.exports = {
     getSongs,
     postSong,
-    deleteSongs
+    deleteSongs,
+    getSong, 
+    updateSong,
+    deleteSong
 }

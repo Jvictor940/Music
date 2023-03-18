@@ -1,4 +1,4 @@
-const getArtist = (req, res, next) => {
+const getArtists = (req, res, next) => {
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')
@@ -11,15 +11,39 @@ const createArtist = (req, res, next) => {
     .setHeader('Content-Type', 'application/json')
     .json({ message: "You've succesfully created an artist"})
 }
-const deleteArtist = (req, res, next) => {
+const deleteArtists = (req, res, next) => {
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')
     .json({ message: "You've succesfully deleted artist"})
 }
 
+const getArtist = (req, res, next) => {
+    res
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Searching for artist with the artistId of ${req.params.artistId}`})
+}
+
+const updateArtist = (req, res, next) => {
+    res
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Updated the artist with the artistId of ${req.params.artistId}`})
+}
+
+const deleteArtist = (req, res, next) => {
+    res 
+    .status(200)
+    .setHeader('Content-Type', 'application/json')
+    .json({ message: `Deleted artist with the artistId of ${req.params.artistId}`})
+}
+
 module.exports = {
-    getArtist, 
+    getArtists, 
     createArtist, 
+    deleteArtists,
+    getArtist,
+    updateArtist,
     deleteArtist
 }

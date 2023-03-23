@@ -1,4 +1,6 @@
-const getArtists = (req, res, next) => {
+const Artist = require('../models/Artist');
+
+const getArtists = async (req, res, next) => {
     if (Object.keys(req.query).length){
         const {
             firstName, 
@@ -15,41 +17,71 @@ const getArtists = (req, res, next) => {
             console.log(`Searching artist by: ${query}`)
         }
     }
-
-    res 
-    .status(200)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: "You've succesfully got your artist"})
+    try {
+        const artists = await Artist.find()
+        res 
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(artists)
+    } catch (err) {
+        next(err)
+    }
 }
 
-const createArtist = (req, res, next) => {
-    res 
-    .status(201)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: "You've succesfully created an artist"})
+const createArtist = async (req, res, next) => {
+    try {
+        const createdArtist = await Artist.create(req.body)
+        res 
+        .status(201)
+        .setHeader('Content-Type', 'application/json')
+        .json()
+    } catch (err) {
+        
+    }
 }
-const deleteArtists = (req, res, next) => {
+const deleteArtists = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        
+    }
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')
     .json({ message: "You've succesfully deleted artist"})
 }
 
-const getArtist = (req, res, next) => {
+//For 'artist/:artistId'
+const getArtist = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        
+    }
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
     .json({ message: `Searching for artist with the artistId of ${req.params.artistId}`})
 }
 
-const updateArtist = (req, res, next) => {
+const updateArtist = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        
+    }
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
     .json({ message: `Updated the artist with the artistId of ${req.params.artistId}`})
 }
 
-const deleteArtist = (req, res, next) => {
+const deleteArtist = async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+        
+    }
     res 
     .status(200)
     .setHeader('Content-Type', 'application/json')

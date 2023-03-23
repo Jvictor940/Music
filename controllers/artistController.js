@@ -34,58 +34,58 @@ const createArtist = async (req, res, next) => {
         res 
         .status(201)
         .setHeader('Content-Type', 'application/json')
-        .json()
+        .json(createdArtist)
     } catch (err) {
-        
+        next(err)
     }
 }
 const deleteArtists = async (req, res, next) => {
     try {
-        
+        const deletedArtists = await Artist.deleteMany()
+        res 
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(deletedArtists)
     } catch (err) {
-        
+        next(err)
     }
-    res 
-    .status(200)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: "You've succesfully deleted artist"})
 }
 
 //For 'artist/:artistId'
 const getArtist = async (req, res, next) => {
     try {
-        
+        const artist = await Artist.findById(req.params.artistId)
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(artist)
     } catch (err) {
-        
+        next(err)
     }
-    res
-    .status(200)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: `Searching for artist with the artistId of ${req.params.artistId}`})
 }
 
 const updateArtist = async (req, res, next) => {
     try {
-        
+        const updatedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true})
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(updatedArtist)
     } catch (err) {
-        
+        next(err)
     }
-    res
-    .status(200)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: `Updated the artist with the artistId of ${req.params.artistId}`})
 }
 
 const deleteArtist = async (req, res, next) => {
     try {
-        
+        const deletedArtist = await Artist.findByIdAndDelete(req.params.artistId)
+        res 
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(deletedArtist)
     } catch (err) {
-        
+        next(err)
     }
-    res 
-    .status(200)
-    .setHeader('Content-Type', 'application/json')
-    .json({ message: `Deleted artist with the artistId of ${req.params.artistId}`})
 }
 
 module.exports = {

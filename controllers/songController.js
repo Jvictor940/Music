@@ -94,11 +94,58 @@ const deleteSong = async (req, res, next) => {
     }
 }
 
+// For '/:songId/ratings' endpoint
+const getSongRatings = async (req, res, next) => {
+    try {
+        const result = await Song.findById(req.params.songId)
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(result.ratings)
+    } catch (err) {
+        next(err)
+    }
+}
+
+const postSongRating = async (req, res, next) => {
+    try {
+        const result = await Song.findById(req.params.songId)
+        result.ratings.push(req.body)
+        await result.save()
+
+        res 
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json(result.ratings)
+    } catch (err) {
+        next(err)
+    }
+}
+
+const deleteSongRatings = async (req, res, next) => {
+    try {
+        const result = await Item.findById(req.params.itemId)
+        
+        result.ratings = [];
+
+        await result.save()
+        res 
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json({message: `Deleted all the ratings for item id of ${req.params.itemId}`})
+    } catch (err) {
+        next(err)
+    }
+}
 module.exports = {
     getSongs,
     postSong,
     deleteSongs,
     getSong, 
     updateSong,
-    deleteSong
+    deleteSong,
+    getSongRatings,
+    postSongRating, 
+    deleteSongRatings
 }

@@ -1,24 +1,29 @@
 const Song = require('../models/Song');
 
 const getSongs = async (req, res, next) => {
+    const filter = {};
+    const options = {};
+
     if (Object.keys(req.query).length){
        const {
         songTitle,
         artist,
-        genre
+        genre, 
+        limit, 
+        sortByArtist
        } = req.query 
 
-       const filter = [];
-       if(songTitle) filter.push(songTitle)
-       if(artist) filter.push(artist)
-       if(genre) filter.push(genre)
+       if(songTitle) filter.songTitle = true;
+       if(artist) filter.artist = true;
+       if(genre) filter.genre = true;
 
-       for(const query of filter){
-        console.log(`Searching song by: ${query}`)
+       if (limit) options.limit = limit;
+       if (sortByArtist) options.sort = {
+        artist: sortByArtist
        }
     }
     try {
-        const songs = await Song.find()
+        const songs = await Song.find({}, filter, options)
         res 
         .status(200)
         .setHeader('Content-Type', 'application/json')

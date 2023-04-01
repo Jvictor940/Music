@@ -1,8 +1,32 @@
 const User = require('../models/User');
+const { options } = require('../routes/user')
 
 const getUsers = async (req, res, next) => {
+    const filter = {};
+    const options = {};
+
+    if(Object.keys(req.query).length){
+        const {
+            sortByAge, 
+            userName,
+            gender,
+            limit, 
+            age
+        } = req.query
+
+        if(userName) filter.userName = true;
+        if(gender) filter.gender = true;
+        if (age) filter.age = true;
+
+        if (limit) options.limit = limit;
+        if (sortByAge) options.sort = {
+            age: sortByAge
+        }
+        console.log(filter, options)
+    }
+
     try {
-        const users = await User.find()
+        const users = await User.find({}, filter, options)
         res 
         .status(200)
         .setHeader('Content-Type', 'application/json')
@@ -37,27 +61,7 @@ const deleteUsers = async (req, res, next) => {
 
 // For 'user/:userId'
 const getUser = async (req, res, next) => {
-    const filter = {};
-    const options = {};
-
-    if(Object.keys(req.query).length){
-        const {
-            userName,
-            gender,
-            limit, 
-            age,
-            sortByAge 
-        } = req.query
-
-        if(userName) filter.userName = true;
-        if(gender) filter.gender = true;
-        if (age) filter.age = true;
-
-        if (limit) options.limit = limit;
-        if (sortByAge) options.sort = {
-            age: SortByAge
-        }
-    }
+  
     try {
         const user = await User.findById(req.params.userId)
         res 

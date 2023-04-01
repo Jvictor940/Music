@@ -37,19 +37,25 @@ const deleteUsers = async (req, res, next) => {
 
 // For 'user/:userId'
 const getUser = async (req, res, next) => {
+    const filter = {};
+    const options = {};
 
     if(Object.keys(req.query).length){
         const {
             userName,
-            gender
+            gender,
+            limit, 
+            age,
+            sortByAge 
         } = req.query
 
-        const filter = [];
-        if(userName) filter.push(userName)
-        if(gender) filter.push(gender)
+        if(userName) filter.userName = true;
+        if(gender) filter.gender = true;
+        if (age) filter.age = true;
 
-        for (const query of filter){
-            console.log(`Searching user by: ${query}`)
+        if (limit) options.limit = limit;
+        if (sortByAge) options.sort = {
+            age: SortByAge
         }
     }
     try {

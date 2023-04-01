@@ -38,21 +38,21 @@ const UserSchema = new Schema({
     firstName: {
         type: String,
         required: true, 
-        maxLength: 10
+        maxLength: 15
     },
     lastName: {
         type: String,
         required: true, 
-        maxLength: 10
+        maxLength: 15
     }
 }, {
     timestamps: true
 })
 
 UserSchema.pre('save', function(next){
-    this.userName = this.userName.toLowerCase()
-    this.firstName = this.firstName.toLowerCase()
-    this.lastName = this.lastName.toLowerCase()
+    this.userName = this.userName.trim()
+    this.firstName = this.firstName.trim()
+    this.lastName = this.lastName.trim()
     next()
 })
 

@@ -1,5 +1,6 @@
 const Artist = require('../models/Artist');
 const { options } = require('../routes/artist');
+const path = require('path');
 
 const getArtists = async (req, res, next) => {
     const filter = {}; 
@@ -94,11 +95,42 @@ const deleteArtist = async (req, res, next) => {
     }
 }
 
+const postArtistImage = async (req, res, next) => {
+    try {
+        const err = { message: 'Problem uploading photo'}
+        const noImageErr = { message: `Missing Image!`}
+        if(!req.files) next(noImageErr)
+
+        const file = req.files.file
+        
+        const fileTypeErr = { message: 'Please upload image file type!'}
+        if(!file.mimetype.startsWith('image')) next(fileTypeErr)
+
+        const fileSizeErr = { message: `Image exceeds size of ${process.env.MAX_FILE_SIZE}` }
+        if(file.size > process.env.MAX_FILE_SIZE) next(fileSizeErr)
+
+        file.name = `photo_${req.params.itemId}${path.parse(file.name).ext}`
+        const filePath = process.env.FILE_UPLOAD_PATH + file.name
+
+        file.mv(filePath, async (err) => {
+            await Artist.findByIdAndUpdate(req.params.artistId, { image: file.name })
+        })
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'application/json')
+        .json({ message: 'Image Uploaded' })
+    } catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     getArtists, 
     createArtist, 
     deleteArtists,
     getArtist,
     updateArtist,
-    deleteArtist
+    deleteArtist, 
+    postArtistImage
 }

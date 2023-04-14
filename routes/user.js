@@ -8,9 +8,10 @@ const {
     updateUser,
     deleteUser
 } = require('../controllers/userController');
+const adminValidator = require('../middlewares/utils/validator')
 
 router.route('/')
-.get(getUsers)
+.get(adminValidator, getUsers)
 .post(createUser)
 .delete(deleteUsers)
 

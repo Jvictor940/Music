@@ -9,17 +9,18 @@ const {
     deleteArtist, 
     postArtistImage
 } = require('../controllers/artistController');
+const protectedRoute = require('../middlewares/auth')
 
 router.route('/')
 .get(getArtists)
-.post(createArtist)
-.delete(deleteArtists)
+.post(protectedRoute, createArtist)
+.delete(protectedRoute, deleteArtists)
 
 router.route('/:artistId')
 .get(getArtist)
-.put(updateArtist)
-.delete(deleteArtist)
+.put(protectedRoute, updateArtist)
+.delete(protectedRoute, deleteArtist)
 
 router.route('/:artistId/image')
-.post(postArtistImage)
+.post(protectedRoute, postArtistImage)
 module.exports = router; 

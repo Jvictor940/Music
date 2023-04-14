@@ -1,5 +1,5 @@
 const Artist = require('../models/Artist');
-const { options } = require('../routes/artist');
+// const { options } = require('../routes/artist');
 const path = require('path');
 
 const getArtists = async (req, res, next) => {

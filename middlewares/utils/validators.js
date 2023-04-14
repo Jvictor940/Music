@@ -1,4 +1,5 @@
 const adminValidator = (req, res, next) => {
+    // console.log(req.user)
     if (req.user.admin) {
         next();
     } else {

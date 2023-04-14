@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { options } = require('../routes/user')
+// const { options } = require('../routes/user')
 
 const getUsers = async (req, res, next) => {
     const filter = {};
@@ -94,6 +94,20 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const login = async (req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password) throw new Error('Please provide a email and password')
+
+    const user = await User.findOne({ email }).select('+password')
+
+    if(!user) throw new Error('Invalid Credentials')
+
+    const isMatch = await user.matchPassword(password)
+
+    if(!isMatch) throw new Error('Invalid Credentials')
+    sendTokenResponse(user, 200, res)
+}
+
 const sendTokenResponse = (user, statuscode, res) => {
     const token = user.getSignedJwtToken();
 
@@ -113,5 +127,6 @@ module.exports = {
     deleteUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser, 
+    login
 }
